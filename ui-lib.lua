@@ -235,6 +235,34 @@ do
                     ControlGradient1 = Color3.fromRGB(255, 255, 255);
                     ControlGradient2 = Color3.fromRGB(192, 192, 192);
                 }
+            elseif (theme == 'grey' or theme == 'gray' or theme == 'black') then
+                theme = {
+                    Primary = Color3.fromRGB(115, 115, 115);
+                    Secondary = Color3.fromRGB(115, 115, 115);
+
+                    Window1 = Color3.fromRGB(30, 30, 30);
+                    Window2 = Color3.fromRGB(18, 18, 18);
+                    Window3 = Color3.fromRGB(27, 27, 27);
+
+                    Button1 = Color3.fromRGB(28, 28, 28);
+                    Button2 = Color3.fromRGB(35, 35, 35);
+                    Button3 = Color3.fromRGB(43, 43, 43);
+                    Button4 = Color3.fromRGB(48, 48, 48);
+
+                    Stroke = Color3.fromRGB(58, 58, 58);
+                    StrokeHover = Color3.fromRGB(100, 100, 100);
+
+                    Inset1 = Color3.fromRGB(22, 22, 22);
+                    Inset2 = Color3.fromRGB(12, 12, 12);
+                    Inset3 = Color3.fromRGB(20, 20, 20);
+
+                    TextPrimary = Color3.fromRGB(235, 235, 235);
+                    TextStroke = Color3.fromRGB(0, 0, 0);
+                    TextDim = Color3.fromRGB(165, 165, 165);
+
+                    ControlGradient1 = Color3.fromRGB(105, 105, 105);
+                    ControlGradient2 = Color3.fromRGB(70, 70, 70);
+                }
             elseif (theme == 'watermelon') then
                 theme = nil
             end
@@ -247,31 +275,32 @@ do
     end
     if (typeof(theme) ~= 'table') then
         theme = {
-            Primary = Color3.fromRGB(59, 130, 246);
-            Secondary = Color3.fromRGB(96, 165, 250);
+            -- Neutral black / grey default palette (matches the supplied reference).
+            Primary = Color3.fromRGB(115, 115, 115);
+            Secondary = Color3.fromRGB(115, 115, 115);
 
-            Window1 = Color3.fromRGB(18, 25, 38);
-            Window2 = Color3.fromRGB(12, 18, 30);
-            Window3 = Color3.fromRGB(16, 23, 36);
+            Window1 = Color3.fromRGB(30, 30, 30);
+            Window2 = Color3.fromRGB(18, 18, 18);
+            Window3 = Color3.fromRGB(27, 27, 27);
 
-            Button1 = Color3.fromRGB(20, 29, 44);
-            Button2 = Color3.fromRGB(27, 40, 60);
-            Button3 = Color3.fromRGB(35, 52, 76);
-            Button4 = Color3.fromRGB(43, 64, 94);
+            Button1 = Color3.fromRGB(28, 28, 28);
+            Button2 = Color3.fromRGB(35, 35, 35);
+            Button3 = Color3.fromRGB(43, 43, 43);
+            Button4 = Color3.fromRGB(48, 48, 48);
 
-            Stroke = Color3.fromRGB(43, 63, 88);
-            StrokeHover = Color3.fromRGB(59, 130, 246);
+            Stroke = Color3.fromRGB(58, 58, 58);
+            StrokeHover = Color3.fromRGB(100, 100, 100);
 
-            Inset1 = Color3.fromRGB(14, 21, 34);
-            Inset2 = Color3.fromRGB(8, 13, 23);
-            Inset3 = Color3.fromRGB(11, 17, 29);
+            Inset1 = Color3.fromRGB(22, 22, 22);
+            Inset2 = Color3.fromRGB(12, 12, 12);
+            Inset3 = Color3.fromRGB(20, 20, 20);
 
-            TextPrimary = Color3.fromRGB(255, 255, 255);
+            TextPrimary = Color3.fromRGB(235, 235, 235);
             TextStroke = Color3.fromRGB(0, 0, 0);
-            TextDim = Color3.fromRGB(165, 180, 200);
+            TextDim = Color3.fromRGB(165, 165, 165);
 
-            ControlGradient1 = Color3.fromRGB(255, 255, 255);
-            ControlGradient2 = Color3.fromRGB(192, 192, 192);
+            ControlGradient1 = Color3.fromRGB(105, 105, 105);
+            ControlGradient2 = Color3.fromRGB(70, 70, 70);
         }
     end
 end
@@ -6977,4 +7006,3 @@ end
 
 
 return ui
--- updated !

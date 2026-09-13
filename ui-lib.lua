@@ -5695,18 +5695,6 @@ do
 
                                 display.Parent = picker
 
-                                local gradient = Instance.new('UIGradient') do
-                                    gradient.Color = ColorSequence.new(
-                                        theme.ControlGradient1,
-                                        theme.ControlGradient2
-                                    )
-                                    gradient.Rotation = 90
-                                    gradient.Enabled = true
-                                    gradient.Name = '#gradient'
-
-                                    gradient.Parent = display
-                                end
-
                                 local round = Instance.new('UICorner') do
                                     round.CornerRadius = UDim.new(1, 0)
                                     round.Name = '#round'

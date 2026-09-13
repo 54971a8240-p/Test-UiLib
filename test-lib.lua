@@ -267,8 +267,8 @@ do
             Inset3 = Color3.fromRGB(11, 17, 29);
 
             TextPrimary = Color3.fromRGB(255, 255, 255);
+            TextStroke = Color3.fromRGB(0, 0, 0);
             TextDim = Color3.fromRGB(165, 180, 200);
-            TextDim = Color3.fromRGB(164, 164, 164);
 
             ControlGradient1 = Color3.fromRGB(255, 255, 255);
             ControlGradient2 = Color3.fromRGB(192, 192, 192);

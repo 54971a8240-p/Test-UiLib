@@ -991,40 +991,6 @@ do
                         end
                     end
 
-                    local buttonKeybind = Instance.new('TextButton') do
-                        buttonKeybind.AnchorPoint = Vector2.new(1, 0)
-                        buttonKeybind.AutoButtonColor = false
-                        buttonKeybind.BackgroundColor3 = theme.Button1
-                        buttonKeybind.BorderSizePixel = 0
-                        buttonKeybind.Name = '#button-keybind'
-                        buttonKeybind.Position = UDim2.new(1, -51, 0, 2)
-                        buttonKeybind.Size = UDim2.fromOffset(20, 20)
-                        buttonKeybind.Visible = true
-                        buttonKeybind.ZIndex = 102
-                        buttonKeybind.Text = 'KB'
-                        buttonKeybind.TextColor3 = theme.TextDim
-                        buttonKeybind.TextSize = 10
-                        buttonKeybind.TextStrokeColor3 = theme.TextStroke
-                        buttonKeybind.TextStrokeTransparency = 0.8
-
-                        buttonKeybind.Parent = titleBar
-
-                        local round = Instance.new('UICorner') do
-                            round.CornerRadius = UDim.new(0, rounding and 2 or 0)
-                            round.Name = '#round'
-                            round.Parent = buttonKeybind
-                        end
-
-                        local stroke = Instance.new('UIStroke') do
-                            stroke.ApplyStrokeMode = 'Border'
-                            stroke.Color = theme.Stroke
-                            stroke.LineJoinMode = 'Round'
-                            stroke.Name = '#stroke'
-                            stroke.Thickness = 1
-                            stroke.Parent = buttonKeybind
-                        end
-                    end
-
                     local icon = Instance.new('ImageLabel') do
                         icon.BackgroundTransparency = 1
                         icon.BorderSizePixel = 0
@@ -1189,23 +1155,6 @@ do
                         self:destroy()
                     end
                 },
-                buttonKeybind = {
-                    MouseEnter = function(self, w)
-                        tween(self, {BackgroundColor3 = theme.Button2}, 0.2, 1)
-                        tween(self['#stroke'], {Color = theme.StrokeHover}, 0.2, 1)
-                    end,
-                    MouseLeave = function(self, w)
-                        if (w.toggleKeyListening) then
-                            tween(self, {BackgroundColor3 = theme.Button3}, 0.2, 1)
-                        else
-                            tween(self, {BackgroundColor3 = theme.Button1}, 0.2, 1)
-                        end
-                        tween(self['#stroke'], {Color = theme.Stroke}, 0.2, 1)
-                    end,
-                    MouseButton1Click = function(_, self)
-                        self:editToggleKey()
-                    end
-                },
                 buttonMin = {
                     MouseEnter = function(self, w)
                         w.minFocused = true
@@ -1363,51 +1312,11 @@ do
                 end
 
                 self.toggleKey = key
-                self.instances.buttonKeybind.Text = key and key.Name or 'KB'
-                self.instances.buttonKeybind.TextSize = key and 9 or 10
                 return self
             end
 
             window.getToggleKey = function(self)
                 return self.toggleKey
-            end
-
-            window.editToggleKey = function(self)
-                if (self.toggleKeyInputCon) then return self end
-
-                local button = self.instances.buttonKeybind
-                self.toggleKeyListening = true
-                button.Text = '...'
-                tween(button, {BackgroundColor3 = theme.Button3, TextColor3 = theme.Primary}, 0.2, 1)
-
-                self.toggleKeyInputCon = inputService.InputBegan:Connect(function(io, gpe)
-                    if (io.UserInputType ~= Enum.UserInputType.Keyboard) then return end
-
-                    local key = io.KeyCode
-                    if (key == Enum.KeyCode.Escape) then
-                        self.toggleKeyListening = false
-                        self.toggleKeyInputCon:Disconnect()
-                        self.toggleKeyInputCon = nil
-                        self:setToggleKey(self.toggleKey)
-                        tween(button, {BackgroundColor3 = theme.Button1, TextColor3 = theme.TextDim}, 0.2, 1)
-                        return
-                    end
-
-                    if (key == Enum.KeyCode.Backspace or key == Enum.KeyCode.Delete) then
-                        self:setToggleKey(nil)
-                    elseif (key ~= Enum.KeyCode.Unknown) then
-                        self:setToggleKey(key)
-                    else
-                        return
-                    end
-
-                    self.toggleKeyListening = false
-                    self.toggleKeyInputCon:Disconnect()
-                    self.toggleKeyInputCon = nil
-                    tween(button, {BackgroundColor3 = theme.Button1, TextColor3 = theme.TextDim}, 0.2, 1)
-                end)
-
-                return self
             end
 
             window.setPosition = function(self, newPosition)
@@ -1456,7 +1365,6 @@ do
 
                 instances.buttonClose = titleBar['#button-close']
                 instances.buttonMin = titleBar['#button-min']
-                instances.buttonKeybind = titleBar['#button-keybind']
                 instances.titleBar = titleBar
                 instances.title = titleBar['#title']
                 instances.gradient = instances.mainFrame['#trim']['#gradient']
@@ -6909,19 +6817,16 @@ do
                 local icon = titleBar['#icon']
                 local bClose = titleBar['#button-close']
                 local bMin = titleBar['#button-min']
-                local bKey = titleBar['#button-keybind']
                 local title = titleBar['#title']
 
                 local offset = UDim2.fromOffset(50, 0)
 
                 bClose.Position += offset
                 bMin.Position += offset
-                bKey.Position += offset
                 icon.Position -= offset
                 title.Position -= offset
                 tween(bClose, {Position = bClose.Position - offset}, 1, 1)
                 tween(bMin, {Position = bMin.Position - offset}, 1, 1)
-                tween(bKey, {Position = bKey.Position - offset}, 1, 1)
                 tween(icon, {Position = icon.Position + offset}, 1, 1)
                 tween(title, {Position = title.Position + offset}, 1, 1)
             end)
@@ -7051,7 +6956,7 @@ do
 
                 for i = 1, #windows do
                     local window = windows[i]
-                    if (window.toggleKey == kc and not window.toggleKeyListening) then
+                    if (window.toggleKey == kc) then
                         window:toggle()
                     end
                 end

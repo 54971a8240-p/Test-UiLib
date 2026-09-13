@@ -790,6 +790,11 @@ do
                     mainFrame.Visible = true
                     mainFrame.ZIndex = 5
 
+                    local round = Instance.new('UICorner') do
+                        round.CornerRadius = UDim.new(0, rounding and 6 or 0)
+                        round.Name = '#round'
+                        round.Parent = mainFrame
+                    end
 
                 end
 
@@ -809,6 +814,13 @@ do
                     backgroundFrame.Size = UDim2.fromScale(1, 1)
                     backgroundFrame.Visible = true
                     backgroundFrame.ZIndex = 4
+
+                    local round = Instance.new('UICorner') do
+                        round.CornerRadius = UDim.new(0, rounding and 6 or 0)
+                        round.Name = '#round'
+                        round.Parent = backgroundFrame
+                    end
+
                     backgroundFrame.Parent = mainFrame
                 end
                 local stroke = Instance.new('UIStroke') do
@@ -875,6 +887,12 @@ do
                     titleBar.Size = UDim2.new(1, 0, 0, 26)
                     titleBar.ZIndex = 50
 
+                    local round = Instance.new('UICorner') do
+                        round.CornerRadius = UDim.new(0, rounding and 6 or 0)
+                        round.Name = '#round'
+                        round.Parent = titleBar
+                    end
+
                     titleBar.Parent = mainFrame
 
                     local stroke = Instance.new('UIStroke') do
@@ -917,7 +935,7 @@ do
                         buttonClose.Parent = titleBar
 
                         local round = Instance.new('UICorner') do
-                            round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                            round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                             round.Name = '#round'
 
                             round.Parent = buttonClose
@@ -976,7 +994,7 @@ do
                         buttonMin.Parent = titleBar
 
                         local round = Instance.new('UICorner') do
-                            round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                            round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                             round.Name = '#round'
 
                             round.Parent = buttonMin
@@ -1812,7 +1830,7 @@ do
                         buttonClose.Parent = titleBar
 
                         local round = Instance.new('UICorner') do
-                            round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                            round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                             round.Name = '#round'
 
                             round.Parent = buttonClose
@@ -1871,7 +1889,7 @@ do
                         buttonMin.Parent = titleBar
 
                         local round = Instance.new('UICorner') do
-                            round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                            round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                             round.Name = '#round'
 
                             round.Parent = buttonMin
@@ -2124,7 +2142,7 @@ do
                                 sliderContainer.Parent = valueSlider
 
                                 local round = Instance.new('UICorner') do
-                                    round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                    round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                     round.Name = '#round'
 
                                     round.Parent = sliderContainer
@@ -2166,7 +2184,7 @@ do
                                     end
 
                                     local round = Instance.new('UICorner') do
-                                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                         round.Name = '#round'
 
                                         round.Parent = valueGradient
@@ -2195,7 +2213,7 @@ do
                                     cursorInner.Parent = sliderContainer
 
                                     local round = Instance.new('UICorner') do
-                                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                         round.Name = '#round'
 
                                         round.Parent = cursorInner
@@ -2223,7 +2241,7 @@ do
                                         cursorOuter.Parent = cursorInner
 
                                         local round = Instance.new('UICorner') do
-                                            round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                            round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                             round.Name = '#round'
 
                                             round.Parent = cursorOuter
@@ -2265,7 +2283,7 @@ do
                                 sliderContainer.Parent = speedSlider
 
                                 local round = Instance.new('UICorner') do
-                                    round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                    round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                     round.Name = '#round'
 
                                     round.Parent = sliderContainer
@@ -2307,7 +2325,7 @@ do
                                     end
 
                                     local round = Instance.new('UICorner') do
-                                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                         round.Name = '#round'
 
                                         round.Parent = speedGradient
@@ -2336,7 +2354,7 @@ do
                                     cursorInner.Parent = sliderContainer
 
                                     local round = Instance.new('UICorner') do
-                                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                         round.Name = '#round'
 
                                         round.Parent = cursorInner
@@ -2364,7 +2382,7 @@ do
                                         cursorOuter.Parent = cursorInner
 
                                         local round = Instance.new('UICorner') do
-                                            round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                            round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                             round.Name = '#round'
 
                                             round.Parent = cursorOuter
@@ -2400,7 +2418,7 @@ do
                             chroma.Parent = pickerRegion
 
                             local round = Instance.new('UICorner') do
-                                round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                 round.Name = '#round'
 
                                 round.Parent = chroma
@@ -2481,7 +2499,7 @@ do
                                 sliderContainer.Parent = redSlider
 
                                 local round = Instance.new('UICorner') do
-                                    round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                    round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                     round.Name = '#round'
 
                                     round.Parent = sliderContainer
@@ -2509,7 +2527,7 @@ do
                                     sliderFill.Parent = sliderContainer
 
                                     local round = Instance.new('UICorner') do
-                                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                         round.Name = '#round'
 
                                         round.Parent = sliderFill
@@ -2553,7 +2571,7 @@ do
                                     inputBox.Parent = sliderContainer
 
                                     local round = Instance.new('UICorner') do
-                                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                         round.Name = '#round'
 
                                         round.Parent = inputBox
@@ -2652,7 +2670,7 @@ do
                                 sliderContainer.Parent = greenSlider
 
                                 local round = Instance.new('UICorner') do
-                                    round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                    round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                     round.Name = '#round'
 
                                     round.Parent = sliderContainer
@@ -2681,7 +2699,7 @@ do
                                     sliderFill.Parent = sliderContainer
 
                                     local round = Instance.new('UICorner') do
-                                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                         round.Name = '#round'
 
                                         round.Parent = sliderFill
@@ -2726,7 +2744,7 @@ do
                                     inputBox.Parent = sliderContainer
 
                                     local round = Instance.new('UICorner') do
-                                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                         round.Name = '#round'
 
                                         round.Parent = inputBox
@@ -2818,7 +2836,7 @@ do
                                 sliderContainer.Parent = blueSlider
 
                                 local round = Instance.new('UICorner') do
-                                    round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                    round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                     round.Name = '#round'
 
                                     round.Parent = sliderContainer
@@ -2847,7 +2865,7 @@ do
                                     sliderFill.Parent = sliderContainer
 
                                     local round = Instance.new('UICorner') do
-                                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                         round.Name = '#round'
 
                                         round.Parent = sliderFill
@@ -2892,7 +2910,7 @@ do
                                     inputBox.Parent = sliderContainer
 
                                     local round = Instance.new('UICorner') do
-                                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                         round.Name = '#round'
 
                                         round.Parent = inputBox
@@ -3924,7 +3942,7 @@ do
                     instances.pageSelector = pageSelector
 
                     local round = Instance.new('UICorner') do
-                        round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                        round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                         round.Name = '#round'
 
                         round.Parent = pageSelector
@@ -4183,7 +4201,7 @@ do
                         minimize.Parent = titleBar
 
                         local round = Instance.new('UICorner') do
-                            round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                            round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                             round.Name = '#round'
 
                             round.Parent = minimize
@@ -4475,7 +4493,7 @@ do
                         local toggle = Instance.new('Frame') do
                             toggle.Active = true
                             toggle.AnchorPoint = Vector2.new(1, 0)
-                            toggle.BackgroundColor3 = theme.Button1
+                            toggle.BackgroundColor3 = Color3.fromRGB(210, 55, 55)
                             toggle.Name = '#toggle'
                             toggle.Position = UDim2.new(1, -3, 0, 2)
                             toggle.Size = UDim2.fromOffset(16, 16)
@@ -4485,7 +4503,7 @@ do
                             toggle.Parent = backToggle
 
                             local round = Instance.new('UICorner') do
-                                round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                 round.Name = '#round'
 
                                 round.Parent = toggle
@@ -4511,7 +4529,7 @@ do
                                 icon.Position = UDim2.fromOffset(0, 0)
                                 icon.Rotation = 360
                                 icon.Size = UDim2.fromScale(1, 1)
-                                icon.Visible = true
+                                icon.Visible = false
                                 icon.ZIndex = 35
 
                                 icon.Parent = toggle
@@ -4545,33 +4563,10 @@ do
 
 
                 if (newState) then
-                    icon.Image = 'rbxassetid://9801457539'
-                    tween(icon, {
-                        Rotation = 0,
-                        ImageColor3 = theme.Primary
-                    }, 0.3, 1)
-
-
-                    if (self.focused) then
-                        tween(toggle, {BackgroundColor3 = theme.Button4}, 0.2, 1)
-                    else
-                        tween(toggle, {BackgroundColor3 = theme.Button3}, 0.2, 1)
-                    end
-
+                    tween(toggle, {BackgroundColor3 = Color3.fromRGB(70, 190, 90)}, 0.2, 1)
                     self:fireEvent('onEnable')
                 else
-                    icon.Image = 'rbxassetid://9801456486'
-                    tween(icon, {
-                        Rotation = 360,
-                        ImageColor3 = theme.Secondary
-                    }, 0.3, 1)
-
-                    if (self.focused) then
-                        tween(toggle, {BackgroundColor3 = theme.Button2}, 0.2, 1)
-                    else
-                        tween(toggle, {BackgroundColor3 = theme.Button1}, 0.2, 1)
-                    end
-
+                    tween(toggle, {BackgroundColor3 = Color3.fromRGB(210, 55, 55)}, 0.2, 1)
                     self:fireEvent('onDisable')
                 end
 
@@ -4588,17 +4583,11 @@ do
                 local toggle = self.instances.toggle
                 local icon = toggle['#icon']
 
-                icon.Image = 'rbxassetid://9801457539'
-                tween(icon, {
-                    Rotation = 0,
-                    ImageColor3 = theme.Primary
-                }, 0.3, 1)
+                tween(toggle, {BackgroundColor3 = Color3.fromRGB(70, 190, 90)}, 0.2, 1)
 
                 if (self.focused) then
-                    tween(toggle, {BackgroundColor3 = theme.Button4}, 0.2, 1)
                     tween(toggle['#stroke'], {Color = theme.StrokeHover}, 0.2, 1)
                 else
-                    tween(toggle, {BackgroundColor3 = theme.Button3}, 0.2, 1)
                     tween(toggle['#stroke'], {Color = theme.Stroke}, 0.2, 1)
                 end
 
@@ -4613,18 +4602,11 @@ do
                 local toggle = self.instances.toggle
                 local icon = toggle['#icon']
 
-                icon.Image = 'rbxassetid://9801456486'
-                tween(icon, {
-                    Rotation = 360,
-                    ImageColor3 = theme.Secondary
-                }, 0.3, 1)
-
+                tween(toggle, {BackgroundColor3 = Color3.fromRGB(210, 55, 55)}, 0.2, 1)
 
                 if (self.focused) then
-                    tween(toggle, {BackgroundColor3 = theme.Button2}, 0.2, 1)
                     tween(toggle['#stroke'], {Color = theme.StrokeHover}, 0.2, 1)
                 else
-                    tween(toggle, {BackgroundColor3 = theme.Button1}, 0.2, 1)
                     tween(toggle['#stroke'], {Color = theme.Stroke}, 0.2, 1)
                 end
 
@@ -4647,9 +4629,9 @@ do
                         local togInst = toggle.instances.toggle
 
                         if (toggle.toggled) then
-                            tween(togInst, {BackgroundColor3 = theme.Button4}, 0.2, 1)
+                            tween(togInst, {BackgroundColor3 = Color3.fromRGB(85, 210, 105)}, 0.2, 1)
                         else
-                            tween(togInst, {BackgroundColor3 = theme.Button2}, 0.2, 1)
+                            tween(togInst, {BackgroundColor3 = Color3.fromRGB(235, 70, 70)}, 0.2, 1)
                         end
                         tween(togInst['#stroke'], {Color = theme.StrokeHover}, 0.2, 1)
                     end,
@@ -4660,9 +4642,9 @@ do
 
                         local togInst = toggle.instances.toggle
                         if (toggle.toggled) then
-                            tween(togInst, {BackgroundColor3 = theme.Button3}, 0.2, 1)
+                            tween(togInst, {BackgroundColor3 = Color3.fromRGB(70, 190, 90)}, 0.2, 1)
                         else
-                            tween(togInst, {BackgroundColor3 = theme.Button1}, 0.2, 1)
+                            tween(togInst, {BackgroundColor3 = Color3.fromRGB(210, 55, 55)}, 0.2, 1)
                         end
                         tween(togInst['#stroke'], {Color = theme.Stroke}, 0.2, 1)
                     end,
@@ -4801,7 +4783,7 @@ do
                                 button.Parent = clickSensor
 
                                 local round = Instance.new('UICorner') do
-                                    round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                    round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                     round.Name = '#round'
 
                                     round.Parent = button
@@ -4966,7 +4948,7 @@ do
                                 button.Parent = clickSensor
 
                                 local round = Instance.new('UICorner') do
-                                    round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                    round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                     round.Name = '#round'
 
                                     round.Parent = button
@@ -5250,7 +5232,7 @@ do
                         sliderContainer.Parent = controlFrame
 
                         local round = Instance.new('UICorner') do
-                            round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                            round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                             round.Name = '#round'
 
                             round.Parent = sliderContainer
@@ -5278,7 +5260,7 @@ do
                             sliderFill.Parent = sliderContainer
 
                             local round = Instance.new('UICorner') do
-                                round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                 round.Name = '#round'
 
                                 round.Parent = sliderFill
@@ -5322,7 +5304,7 @@ do
                             inputBox.Parent = sliderContainer
 
                             local round = Instance.new('UICorner') do
-                                round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                                round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                                 round.Name = '#round'
 
                                 round.Parent = inputBox
@@ -6042,7 +6024,7 @@ do
                         inputBox.Parent = controlFrame
 
                         local round = Instance.new('UICorner') do
-                            round.CornerRadius = UDim.new(0, rounding and 2 or 0)
+                            round.CornerRadius = UDim.new(0, rounding and 5 or 0)
                             round.Name = '#round'
 
                             round.Parent = inputBox

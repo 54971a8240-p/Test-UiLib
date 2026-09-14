@@ -13,7 +13,7 @@ elseif protect_gui then
 end
 menu.bg.Position    = UDim2.new(0.5, -menu.bg.Size.X.Offset / 2, 0.5, -menu.bg.Size.Y.Offset / 2)
 menu.Parent         = game:GetService("CoreGui")
-menu.bg.pre.Text    = 'Test UI'
+menu.bg.pre.Text    = 'Seere.vip'
 
 local library = {
     cheatname      = "",
@@ -86,29 +86,29 @@ inputService.InputEnded:Connect(function(key)
 end)
 
 local keyNames = {
-    [Enum.KeyCode.LeftAlt]          = "LALT",
-    [Enum.KeyCode.RightAlt]         = "RALT",
-    [Enum.KeyCode.LeftControl]      = "LCTRL",
-    [Enum.KeyCode.RightControl]     = "RCTRL",
-    [Enum.KeyCode.LeftShift]        = "LSHIFT",
-    [Enum.KeyCode.RightShift]       = "RSHIFT",
-    [Enum.KeyCode.Underscore]       = "_",
-    [Enum.KeyCode.Minus]            = "-",
-    [Enum.KeyCode.Plus]             = "+",
-    [Enum.KeyCode.Period]           = ".",
-    [Enum.KeyCode.Slash]            = "/",
-    [Enum.KeyCode.BackSlash]        = "\\",
-    [Enum.KeyCode.Question]         = "?",
+    [Enum.KeyCode.LeftAlt]            = "LALT",
+    [Enum.KeyCode.RightAlt]           = "RALT",
+    [Enum.KeyCode.LeftControl]        = "LCTRL",
+    [Enum.KeyCode.RightControl]       = "RCTRL",
+    [Enum.KeyCode.LeftShift]          = "LSHIFT",
+    [Enum.KeyCode.RightShift]         = "RSHIFT",
+    [Enum.KeyCode.Underscore]         = "_",
+    [Enum.KeyCode.Minus]              = "-",
+    [Enum.KeyCode.Plus]               = "+",
+    [Enum.KeyCode.Period]             = ".",
+    [Enum.KeyCode.Slash]              = "/",
+    [Enum.KeyCode.BackSlash]          = "\\",
+    [Enum.KeyCode.Question]           = "?",
     [Enum.UserInputType.MouseButton1] = "MB1",
     [Enum.UserInputType.MouseButton2] = "MB2",
     [Enum.UserInputType.MouseButton3] = "MB3",
 }
 
-library.notifyText.Font         = 2
-library.notifyText.Size         = 13
-library.notifyText.Outline      = true
-library.notifyText.Color        = Color3.new(1, 1, 1)
-library.notifyText.Position     = Vector2.new(10, 60)
+library.notifyText.Font     = 2
+library.notifyText.Size     = 13
+library.notifyText.Outline  = true
+library.notifyText.Color    = Color3.new(1, 1, 1)
+library.notifyText.Position = Vector2.new(10, 60)
 
 function library:Tween(...)
     tweenService:Create(...):Play()
@@ -164,6 +164,7 @@ function library:addTab(name)
             local state = v == newButton
             if state then
                 v.element.Visible = true
+                v.element.BackgroundColor3 = library.libColor
                 library:Tween(v.element, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundTransparency = 0 })
                 v.text.TextColor3 = Color3.fromRGB(244, 244, 244)
             else
@@ -179,13 +180,13 @@ function library:addTab(name)
     local topStuff   = 2000
 
     function tab:createGroup(pos, groupname)
-        local groupbox      = Instance.new("Frame")
-        local grouper       = Instance.new("Frame")
-        local UIListLayout  = Instance.new("UIListLayout")
-        local UIPadding     = Instance.new("UIPadding")
-        local element       = Instance.new("Frame")
-        local title         = Instance.new("TextLabel")
-        local backframe     = Instance.new("Frame")
+        local groupbox     = Instance.new("Frame")
+        local grouper      = Instance.new("Frame")
+        local UIListLayout = Instance.new("UIListLayout")
+        local UIPadding    = Instance.new("UIPadding")
+        local element      = Instance.new("Frame")
+        local title        = Instance.new("TextLabel")
+        local backframe    = Instance.new("Frame")
 
         groupCount -= 1
 
@@ -200,6 +201,7 @@ function library:addTab(name)
         grouper.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
         grouper.BorderColor3     = Color3.fromRGB(0, 0, 0)
         grouper.Size             = UDim2.new(1, 0, 1, 0)
+        grouper.ZIndex           = groupCount
 
         UIListLayout.Parent              = grouper
         UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -214,13 +216,14 @@ function library:addTab(name)
         element.BackgroundColor3 = library.libColor
         element.BorderSizePixel  = 0
         element.Size             = UDim2.new(1, 0, 0, 1)
+        element.ZIndex           = groupCount - 1
 
         title.Parent                 = groupbox
         title.BackgroundColor3       = Color3.fromRGB(255, 255, 255)
         title.BackgroundTransparency = 1
         title.BorderSizePixel        = 0
         title.Position               = UDim2.new(0, 17, 0, 0)
-        title.ZIndex                 = 2
+        title.ZIndex                 = groupCount + 2
         title.Font                   = Enum.Font.Code
         title.Text                   = groupname or ""
         title.TextColor3             = Color3.fromRGB(255, 255, 255)
@@ -233,6 +236,7 @@ function library:addTab(name)
         backframe.BorderSizePixel  = 0
         backframe.Position         = UDim2.new(0, 10, 0, -2)
         backframe.Size             = UDim2.new(0, 13 + title.TextBounds.X, 0, 3)
+        backframe.ZIndex           = groupCount + 1
 
         local group = {}
 
@@ -251,13 +255,13 @@ function library:addTab(name)
             jigCount -= 1
             library.multiZindex -= 1
 
-            toggleframe.Name                 = "toggleframe"
-            toggleframe.Parent               = grouper
-            toggleframe.BackgroundColor3     = Color3.fromRGB(255, 255, 255)
+            toggleframe.Name                   = "toggleframe"
+            toggleframe.Parent                 = grouper
+            toggleframe.BackgroundColor3       = Color3.fromRGB(255, 255, 255)
             toggleframe.BackgroundTransparency = 1
-            toggleframe.BorderSizePixel      = 0
-            toggleframe.Size                 = UDim2.new(1, 0, 0, 20)
-            toggleframe.ZIndex               = library.multiZindex
+            toggleframe.BorderSizePixel        = 0
+            toggleframe.Size                   = UDim2.new(1, 0, 0, 20)
+            toggleframe.ZIndex                 = library.multiZindex
 
             tobble.Name             = "tobble"
             tobble.Parent           = toggleframe
@@ -280,29 +284,29 @@ function library:addTab(name)
             front.BorderColor3     = Color3.fromRGB(0, 0, 0)
             front.Size             = UDim2.new(0, 10, 0, 10)
 
-            text.Name                    = "text"
-            text.Parent                  = toggleframe
-            text.BackgroundColor3        = Color3.fromRGB(55, 55, 55)
-            text.BackgroundTransparency  = 1
-            text.Position                = UDim2.new(0, 22, 0, 0)
-            text.Size                    = UDim2.new(0, 0, 1, 2)
-            text.Font                    = Enum.Font.Code
-            text.Text                    = args.text or args.flag
-            text.TextColor3              = Color3.fromRGB(155, 155, 155)
-            text.TextSize                = 13
-            text.TextStrokeTransparency  = 0
-            text.TextXAlignment          = Enum.TextXAlignment.Left
+            text.Name                   = "text"
+            text.Parent                 = toggleframe
+            text.BackgroundColor3       = Color3.fromRGB(55, 55, 55)
+            text.BackgroundTransparency = 1
+            text.Position               = UDim2.new(0, 22, 0, 0)
+            text.Size                   = UDim2.new(0, 0, 1, 2)
+            text.Font                   = Enum.Font.Code
+            text.Text                   = args.text or args.flag
+            text.TextColor3             = Color3.fromRGB(144, 144, 144)
+            text.TextSize               = 13
+            text.TextStrokeTransparency = 0
+            text.TextXAlignment         = Enum.TextXAlignment.Left
 
-            button.Name                  = "button"
-            button.Parent                = toggleframe
-            button.BackgroundColor3      = Color3.fromRGB(255, 255, 255)
+            button.Name                   = "button"
+            button.Parent                 = toggleframe
+            button.BackgroundColor3       = Color3.fromRGB(255, 255, 255)
             button.BackgroundTransparency = 1
-            button.BorderSizePixel       = 0
-            button.Size                  = UDim2.new(0, 101, 1, 0)
-            button.Font                  = Enum.Font.SourceSans
-            button.Text                  = ""
-            button.TextColor3            = Color3.fromRGB(0, 0, 0)
-            button.TextSize              = 14
+            button.BorderSizePixel        = 0
+            button.Size                   = UDim2.new(0, 101, 1, 0)
+            button.Font                   = Enum.Font.SourceSans
+            button.Text                   = ""
+            button.TextColor3             = Color3.fromRGB(0, 0, 0)
+            button.TextSize               = 14
 
             if args.disabled then
                 button.Visible  = false
@@ -316,7 +320,7 @@ function library:addTab(name)
                 state                    = newState
                 library.flags[args.flag] = state
                 front.BackgroundColor3   = state and library.libColor or Color3.fromRGB(15, 15, 15)
-                text.TextColor3          = state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 144)
+                text.TextColor3          = state and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(144, 144, 144)
                 if args.callback then args.callback(state) end
             end
 
@@ -326,7 +330,7 @@ function library:addTab(name)
                 library.flags[args.flag] = state
                 mid.BorderColor3         = Color3.fromRGB(30, 30, 30)
                 front.BackgroundColor3   = state and library.libColor or Color3.fromRGB(15, 15, 15)
-                text.TextColor3          = state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 244)
+                text.TextColor3          = state and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(144, 144, 144)
                 if args.callback then args.callback(state) end
             end)
             button.MouseEnter:Connect(function() mid.BorderColor3 = library.libColor end)
@@ -344,25 +348,25 @@ function library:addTab(name)
                 local keybind  = Instance.new("Frame")
                 local kbutton  = Instance.new("TextButton")
 
-                keybind.Parent                 = toggleframe
-                keybind.BackgroundColor3       = Color3.fromRGB(255, 255, 255)
-                keybind.BackgroundTransparency = 1
-                keybind.BorderSizePixel        = 0
-                keybind.Position               = UDim2.new(0.72, 4, 0.272, 0)
-                keybind.Size                   = UDim2.new(0, 51, 0, 10)
+                keybind.Parent                   = toggleframe
+                keybind.BackgroundColor3         = Color3.fromRGB(255, 255, 255)
+                keybind.BackgroundTransparency   = 1
+                keybind.BorderSizePixel          = 0
+                keybind.Position                 = UDim2.new(0.72, 4, 0.272, 0)
+                keybind.Size                     = UDim2.new(0, 51, 0, 10)
 
-                kbutton.Parent                 = keybind
-                kbutton.BackgroundColor3       = Color3.fromRGB(187, 131, 255)
-                kbutton.BackgroundTransparency = 1
-                kbutton.BorderSizePixel        = 0
-                kbutton.Position               = UDim2.new(-0.27, 0, 0, 0)
-                kbutton.Size                   = UDim2.new(1.27, 0, 1, 0)
-                kbutton.Font                   = Enum.Font.Code
-                kbutton.Text                   = ""
-                kbutton.TextColor3             = Color3.fromRGB(155, 155, 155)
-                kbutton.TextSize               = 13
-                kbutton.TextStrokeTransparency = 0
-                kbutton.TextXAlignment         = Enum.TextXAlignment.Right
+                kbutton.Parent                   = keybind
+                kbutton.BackgroundColor3         = Color3.fromRGB(187, 131, 255)
+                kbutton.BackgroundTransparency   = 1
+                kbutton.BorderSizePixel          = 0
+                kbutton.Position                 = UDim2.new(-0.27, 0, 0, 0)
+                kbutton.Size                     = UDim2.new(1.27, 0, 1, 0)
+                kbutton.Font                     = Enum.Font.Code
+                kbutton.Text                     = ""
+                kbutton.TextColor3               = Color3.fromRGB(155, 155, 155)
+                kbutton.TextSize                 = 13
+                kbutton.TextStrokeTransparency   = 0
+                kbutton.TextXAlignment           = Enum.TextXAlignment.Right
 
                 local function updateValue(val)
                     if library.colorpicking then return end
@@ -374,10 +378,10 @@ function library:addTab(name)
                     local k = key.KeyCode == Enum.KeyCode.Unknown and key.UserInputType or key.KeyCode
                     if next then
                         if not table.find(library.blacklisted, k) then
-                            next               = false
+                            next                      = false
                             library.flags[kargs.flag] = k
-                            kbutton.Text       = keyNames[k] or k.Name
-                            kbutton.TextColor3 = Color3.fromRGB(155, 155, 155)
+                            kbutton.Text              = keyNames[k] or k.Name
+                            kbutton.TextColor3        = Color3.fromRGB(155, 155, 155)
                         end
                     end
                     if not next and k == library.flags[kargs.flag] and kargs.callback then
@@ -388,8 +392,8 @@ function library:addTab(name)
                 kbutton.MouseButton1Click:Connect(function()
                     if library.colorpicking then return end
                     library.flags[kargs.flag] = Enum.KeyCode.Unknown
-                    kbutton.Text       = "--"
-                    kbutton.TextColor3 = library.libColor
+                    kbutton.Text              = "--"
+                    kbutton.TextColor3        = library.libColor
                     next = true
                 end)
 
@@ -441,15 +445,15 @@ function library:addTab(name)
                 cfront.BorderColor3     = Color3.fromRGB(0, 0, 0)
                 cfront.Size             = UDim2.new(1, 0, 1, 0)
 
-                cbutton.Name                  = "button2"
-                cbutton.Parent                = cfront
-                cbutton.BackgroundColor3      = Color3.fromRGB(255, 255, 255)
+                cbutton.Name                   = "button2"
+                cbutton.Parent                 = cfront
+                cbutton.BackgroundColor3       = Color3.fromRGB(255, 255, 255)
                 cbutton.BackgroundTransparency = 1
-                cbutton.Size                  = UDim2.new(1, 0, 1, 0)
-                cbutton.Text                  = ""
-                cbutton.Font                  = Enum.Font.SourceSans
-                cbutton.TextColor3            = Color3.fromRGB(0, 0, 0)
-                cbutton.TextSize              = 14
+                cbutton.Size                   = UDim2.new(1, 0, 1, 0)
+                cbutton.Text                   = ""
+                cbutton.Font                   = Enum.Font.SourceSans
+                cbutton.TextColor3             = Color3.fromRGB(0, 0, 0)
+                cbutton.TextSize               = 14
 
                 colorFrame.Name             = "colorFrame"
                 colorFrame.Parent           = toggleframe
@@ -522,7 +526,7 @@ function library:addTab(name)
                 copy.ZIndex                 = 5
                 copy.Font                   = Enum.Font.Code
                 copy.Text                   = cargs.text or cargs.flag
-                copy.TextColor3             = Color3.fromRGB(100, 100, 100)
+                copy.TextColor3             = Color3.fromRGB(200, 200, 200)
                 copy.TextSize               = 14
                 copy.TextStrokeTransparency = 0
 
@@ -614,10 +618,10 @@ function library:addTab(name)
             local bbutton     = Instance.new("TextButton")
             local gradient    = Instance.new("UIGradient")
 
-            buttonframe.Parent                = grouper
+            buttonframe.Parent                 = grouper
             buttonframe.BackgroundTransparency = 1
-            buttonframe.BorderSizePixel       = 0
-            buttonframe.Size                  = UDim2.new(1, 0, 0, 21)
+            buttonframe.BorderSizePixel        = 0
+            buttonframe.Size                   = UDim2.new(1, 0, 0, 21)
 
             bg.Parent           = buttonframe
             bg.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
@@ -667,10 +671,10 @@ function library:addTab(name)
             local UIGradient = Instance.new("UIGradient")
             local stext      = Instance.new("TextLabel")
 
-            slider.Parent                = grouper
+            slider.Parent                 = grouper
             slider.BackgroundTransparency = 1
-            slider.BorderSizePixel       = 0
-            slider.Size                  = UDim2.new(1, 0, 0, 30)
+            slider.BorderSizePixel        = 0
+            slider.Size                   = UDim2.new(1, 0, 0, 30)
 
             bg.Parent           = slider
             bg.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
@@ -684,11 +688,11 @@ function library:addTab(name)
             smain.BorderColor3     = Color3.fromRGB(50, 50, 50)
             smain.Size             = UDim2.new(1, 0, 1, 0)
 
-            fill.Parent                = smain
-            fill.BackgroundColor3      = library.libColor
+            fill.Parent                 = smain
+            fill.BackgroundColor3       = library.libColor
             fill.BackgroundTransparency = 0.2
-            fill.BorderSizePixel       = 0
-            fill.Size                  = UDim2.new(0, 1, 1, 0)
+            fill.BorderSizePixel        = 0
+            fill.Size                   = UDim2.new(0, 1, 1, 0)
 
             sbutton.Parent                 = smain
             sbutton.BackgroundTransparency = 1
@@ -716,7 +720,7 @@ function library:addTab(name)
             stext.ZIndex                 = 2
             stext.Font                   = Enum.Font.Code
             stext.Text                   = args.text or args.flag
-            stext.TextColor3             = Color3.fromRGB(244, 244, 244)
+            stext.TextColor3             = Color3.fromRGB(255, 255, 255)
             stext.TextSize               = 13
             stext.TextStrokeTransparency = 0
             stext.TextXAlignment         = Enum.TextXAlignment.Left
@@ -774,11 +778,11 @@ function library:addTab(name)
             local gradient = Instance.new("UIGradient")
             local ttext    = Instance.new("TextLabel")
 
-            textbox.Parent                = grouper
+            textbox.Parent                 = grouper
             textbox.BackgroundTransparency = 1
-            textbox.BorderSizePixel       = 0
-            textbox.Size                  = UDim2.new(1, 0, 0, 35)
-            textbox.ZIndex                = 10
+            textbox.BorderSizePixel        = 0
+            textbox.Size                   = UDim2.new(1, 0, 0, 35)
+            textbox.ZIndex                 = 10
 
             bg.Parent           = textbox
             bg.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
@@ -795,31 +799,31 @@ function library:addTab(name)
             tmain.CanvasSize         = UDim2.new(0, 0, 0, 0)
             tmain.ScrollBarThickness = 0
 
-            box.Parent                = tmain
+            box.Parent                 = tmain
             box.BackgroundTransparency = 1
-            box.Selectable            = false
-            box.Size                  = UDim2.new(1, 0, 1, 0)
-            box.Font                  = Enum.Font.Code
-            box.Text                  = args.value or ""
-            box.TextColor3            = Color3.fromRGB(255, 255, 255)
-            box.TextSize              = 13
+            box.Selectable             = false
+            box.Size                   = UDim2.new(1, 0, 1, 0)
+            box.Font                   = Enum.Font.Code
+            box.Text                   = args.value or ""
+            box.TextColor3             = Color3.fromRGB(255, 255, 255)
+            box.TextSize               = 13
             box.TextStrokeTransparency = 0
-            box.TextXAlignment        = Enum.TextXAlignment.Left
+            box.TextXAlignment         = Enum.TextXAlignment.Left
 
             gradient.Color    = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(105,105,105)), ColorSequenceKeypoint.new(1, Color3.fromRGB(121,121,121)) }
             gradient.Rotation = 90
             gradient.Parent   = tmain
 
-            ttext.Parent                = textbox
+            ttext.Parent                 = textbox
             ttext.BackgroundTransparency = 1
-            ttext.Position              = UDim2.new(0.03, -1, 0, 7)
-            ttext.ZIndex                = 2
-            ttext.Font                  = Enum.Font.Code
-            ttext.Text                  = args.text or args.flag
-            ttext.TextColor3            = Color3.fromRGB(244, 244, 244)
-            ttext.TextSize              = 13
+            ttext.Position               = UDim2.new(0.03, -1, 0, 7)
+            ttext.ZIndex                 = 2
+            ttext.Font                   = Enum.Font.Code
+            ttext.Text                   = args.text or args.flag
+            ttext.TextColor3             = Color3.fromRGB(255, 255, 255)
+            ttext.TextSize               = 13
             ttext.TextStrokeTransparency = 0
-            ttext.TextXAlignment        = Enum.TextXAlignment.Left
+            ttext.TextXAlignment         = Enum.TextXAlignment.Left
 
             box:GetPropertyChangedSignal("Text"):Connect(function()
                 if library.colorpicking then return end
@@ -839,10 +843,10 @@ function library:addTab(name)
             local bg    = Instance.new("Frame")
             local dmain = Instance.new("Frame")
 
-            div.Parent                = grouper
+            div.Parent                 = grouper
             div.BackgroundTransparency = 1
-            div.BorderSizePixel       = 0
-            div.Size                  = UDim2.new(0, 202, 0, 10)
+            div.BorderSizePixel        = 0
+            div.Size                   = UDim2.new(0, 202, 0, 10)
 
             bg.Parent           = div
             bg.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
@@ -874,11 +878,11 @@ function library:addTab(name)
             local holder       = Instance.new("Frame")
             local UIListLayout = Instance.new("UIListLayout")
 
-            list.Parent                = grouper
+            list.Parent                 = grouper
             list.BackgroundTransparency = 1
-            list.BorderSizePixel       = 0
-            list.Size                  = UDim2.new(1, 0, 0, 35)
-            list.ZIndex                = library.multiZindex
+            list.BorderSizePixel        = 0
+            list.Size                   = UDim2.new(1, 0, 0, 35)
+            list.ZIndex                 = library.multiZindex
 
             bg.Parent           = list
             bg.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
@@ -915,7 +919,7 @@ function library:addTab(name)
             valuetext.ZIndex                 = 2
             valuetext.Font                   = Enum.Font.Code
             valuetext.Text                   = ""
-            valuetext.TextColor3             = Color3.fromRGB(244, 244, 244)
+            valuetext.TextColor3             = Color3.fromRGB(255, 255, 255)
             valuetext.TextSize               = 13
             valuetext.TextStrokeTransparency = 0
             valuetext.TextXAlignment         = Enum.TextXAlignment.Left
@@ -930,7 +934,7 @@ function library:addTab(name)
             ltext.ZIndex                 = 2
             ltext.Font                   = Enum.Font.Code
             ltext.Text                   = args.text or args.flag
-            ltext.TextColor3             = Color3.fromRGB(244, 244, 244)
+            ltext.TextColor3             = Color3.fromRGB(255, 255, 255)
             ltext.TextSize               = 13
             ltext.TextStrokeTransparency = 0
             ltext.TextXAlignment         = Enum.TextXAlignment.Left
@@ -1003,10 +1007,10 @@ function library:addTab(name)
                     local obtn   = Instance.new("TextButton")
                     local otxt   = Instance.new("TextLabel")
 
-                    option.Name                  = v
-                    option.Parent                = holder
+                    option.Name                   = v
+                    option.Parent                 = holder
                     option.BackgroundTransparency = 1
-                    option.Size                  = UDim2.new(1, 0, 0, 20)
+                    option.Size                   = UDim2.new(1, 0, 0, 20)
 
                     obtn.Parent                 = option
                     obtn.BackgroundColor3       = Color3.fromRGB(35, 35, 35)
@@ -1064,10 +1068,10 @@ function library:addTab(name)
             local dwn          = Instance.new("ImageLabel")
             local up           = Instance.new("ImageLabel")
 
-            list2.Parent                = grouper
+            list2.Parent                 = grouper
             list2.BackgroundTransparency = 1
-            list2.BorderSizePixel       = 0
-            list2.Size                  = UDim2.new(1, 0, 0, 138)
+            list2.BorderSizePixel        = 0
+            list2.Size                   = UDim2.new(1, 0, 0, 138)
 
             cframe.Parent           = list2
             cframe.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
@@ -1140,12 +1144,12 @@ function library:addTab(name)
                     local ibtn = Instance.new("TextButton")
                     local itxt = Instance.new("TextLabel")
 
-                    item.Name                  = v
-                    item.Parent                = holder
-                    item.Active                = true
+                    item.Name                   = v
+                    item.Parent                 = holder
+                    item.Active                 = true
                     item.BackgroundTransparency = 1
-                    item.BorderSizePixel       = 0
-                    item.Size                  = UDim2.new(1, 0, 0, 18)
+                    item.BorderSizePixel        = 0
+                    item.Size                   = UDim2.new(1, 0, 0, 18)
 
                     ibtn.Parent                 = item
                     ibtn.BackgroundTransparency = 1
@@ -1201,21 +1205,21 @@ function library:addTab(name)
             local clr         = Instance.new("Frame")
             local copy        = Instance.new("TextButton")
 
-            cpframe.Parent                = grouper
+            cpframe.Parent                 = grouper
             cpframe.BackgroundTransparency = 1
-            cpframe.BorderSizePixel       = 0
-            cpframe.Size                  = UDim2.new(1, 0, 0, 20)
-            cpframe.ZIndex                = topStuff
+            cpframe.BorderSizePixel        = 0
+            cpframe.Size                   = UDim2.new(1, 0, 0, 20)
+            cpframe.ZIndex                 = topStuff
 
-            cptext.Parent                = cpframe
+            cptext.Parent                 = cpframe
             cptext.BackgroundTransparency = 1
-            cptext.Position              = UDim2.new(0.02, -1, 0, 10)
-            cptext.Font                  = Enum.Font.Code
-            cptext.Text                  = args.text or args.flag
-            cptext.TextColor3            = Color3.fromRGB(244, 244, 244)
-            cptext.TextSize              = 13
+            cptext.Position               = UDim2.new(0.02, -1, 0, 10)
+            cptext.Font                   = Enum.Font.Code
+            cptext.Text                   = args.text or args.flag
+            cptext.TextColor3             = Color3.fromRGB(255, 255, 255)
+            cptext.TextSize               = 13
             cptext.TextStrokeTransparency = 0
-            cptext.TextXAlignment        = Enum.TextXAlignment.Left
+            cptext.TextXAlignment         = Enum.TextXAlignment.Left
 
             cpick2.Parent           = cpframe
             cpick2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1316,7 +1320,7 @@ function library:addTab(name)
             copy.ZIndex                 = 5
             copy.Font                   = Enum.Font.Code
             copy.Text                   = args.text or args.flag
-            copy.TextColor3             = Color3.fromRGB(100, 100, 100)
+            copy.TextColor3             = Color3.fromRGB(200, 200, 200)
             copy.TextSize               = 14
             copy.TextStrokeTransparency = 0
 
@@ -1404,20 +1408,20 @@ function library:addTab(name)
             local ktext   = Instance.new("TextLabel")
             local kbutton = Instance.new("TextButton")
 
-            keybind.Parent                = grouper
+            keybind.Parent                 = grouper
             keybind.BackgroundTransparency = 1
-            keybind.BorderSizePixel       = 0
-            keybind.Size                  = UDim2.new(1, 0, 0, 20)
+            keybind.BorderSizePixel        = 0
+            keybind.Size                   = UDim2.new(1, 0, 0, 20)
 
-            ktext.Parent                = keybind
+            ktext.Parent                 = keybind
             ktext.BackgroundTransparency = 1
-            ktext.Position              = UDim2.new(0.02, -1, 0, 10)
-            ktext.Font                  = Enum.Font.Code
-            ktext.Text                  = args.text or args.flag
-            ktext.TextColor3            = Color3.fromRGB(244, 244, 244)
-            ktext.TextSize              = 13
+            ktext.Position               = UDim2.new(0.02, -1, 0, 10)
+            ktext.Font                   = Enum.Font.Code
+            ktext.Text                   = args.text or args.flag
+            ktext.TextColor3             = Color3.fromRGB(255, 255, 255)
+            ktext.TextSize               = 13
             ktext.TextStrokeTransparency = 0
-            ktext.TextXAlignment        = Enum.TextXAlignment.Left
+            ktext.TextXAlignment         = Enum.TextXAlignment.Left
 
             kbutton.Parent                 = keybind
             kbutton.BackgroundColor3       = Color3.fromRGB(187, 131, 255)
@@ -1442,10 +1446,10 @@ function library:addTab(name)
                 local k = key.KeyCode == Enum.KeyCode.Unknown and key.UserInputType or key.KeyCode
                 if next then
                     if not table.find(library.blacklisted, k) then
-                        next               = false
+                        next                     = false
                         library.flags[args.flag] = k
-                        kbutton.Text       = keyNames[k] or k.Name
-                        kbutton.TextColor3 = Color3.fromRGB(155, 155, 155)
+                        kbutton.Text             = keyNames[k] or k.Name
+                        kbutton.TextColor3       = Color3.fromRGB(155, 155, 155)
                     end
                 end
                 if not next and k == library.flags[args.flag] and args.callback then

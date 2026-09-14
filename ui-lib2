@@ -13,7 +13,7 @@ elseif protect_gui then
 end
 menu.bg.Position    = UDim2.new(0.5, -menu.bg.Size.X.Offset / 2, 0.5, -menu.bg.Size.Y.Offset / 2)
 menu.Parent         = game:GetService("CoreGui")
-menu.bg.pre.Text    = 'Seere<font color="#c375ae">.vip</font>'
+menu.bg.pre.Text    = 'Test UI'
 
 local library = {
     cheatname      = "",
@@ -139,11 +139,6 @@ function library:setToggleKey(key)
     library.toggleKey = key
 end
 
-function library:setUISize(x, y)
-    menu.bg.Size = UDim2.new(0, x, 0, y)
-    menu.bg.Position = UDim2.new(0.5, -x / 2, 0.5, -y / 2)
-end
-
 function library:addTab(name)
     local newTab    = tabholder.tab:Clone()
     local newButton = tabviewer.button:Clone()
@@ -169,6 +164,7 @@ function library:addTab(name)
             local state = v == newButton
             if state then
                 v.element.Visible = true
+                v.element.BackgroundColor3 = library.libColor
                 library:Tween(v.element, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundTransparency = 0 })
                 v.text.TextColor3 = Color3.fromRGB(244, 244, 244)
             else

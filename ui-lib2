@@ -29,7 +29,7 @@ local library = {
     playing        = false,
     multiZindex    = 200,
     toInvis        = {},
-    libColor       = Color3.fromRGB(240, 142, 214),
+    libColor       = Color3.fromRGB(59, 130, 246),
     disabledcolor  = Color3.fromRGB(233, 0, 0),
     blacklisted    = {
         Enum.KeyCode.W,
@@ -38,6 +38,7 @@ local library = {
         Enum.KeyCode.D,
         Enum.UserInputType.MouseMovement,
     },
+    toggleKey      = Enum.KeyCode.RightShift,
 }
 
 local function draggable(a)
@@ -74,7 +75,7 @@ local tabholder = menu.bg.bg.bg.bg.main.group
 local tabviewer = menu.bg.bg.bg.bg.tabbuttons
 
 inputService.InputEnded:Connect(function(key)
-    if key.KeyCode == Enum.KeyCode.RightShift then
+    if key.KeyCode == library.toggleKey then
         menu.Enabled = not menu.Enabled
         library.scrolling = false
         library.colorpicking = false
@@ -132,6 +133,15 @@ function library:notify(text)
         library.playing = false
         library.notifyText.Visible = false
     end)
+end
+
+function library:setToggleKey(key)
+    library.toggleKey = key
+end
+
+function library:setUISize(x, y)
+    menu.bg.Size = UDim2.new(0, x, 0, y)
+    menu.bg.Position = UDim2.new(0.5, -x / 2, 0.5, -y / 2)
 end
 
 function library:addTab(name)
@@ -321,7 +331,7 @@ function library:addTab(name)
                 library.flags[args.flag] = state
                 mid.BorderColor3         = Color3.fromRGB(30, 30, 30)
                 front.BackgroundColor3   = state and library.libColor or Color3.fromRGB(15, 15, 15)
-                text.TextColor3          = state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 144)
+                text.TextColor3          = state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 244)
                 if args.callback then args.callback(state) end
             end)
             button.MouseEnter:Connect(function() mid.BorderColor3 = library.libColor end)
@@ -432,7 +442,7 @@ function library:addTab(name)
 
                 cfront.Name             = "front"
                 cfront.Parent           = cmid
-                cfront.BackgroundColor3 = Color3.fromRGB(240, 142, 214)
+                cfront.BackgroundColor3 = library.libColor
                 cfront.BorderColor3     = Color3.fromRGB(0, 0, 0)
                 cfront.Size             = UDim2.new(1, 0, 1, 0)
 
@@ -1228,7 +1238,7 @@ function library:addTab(name)
 
             cpfront.Name             = "front"
             cpfront.Parent           = cpmid
-            cpfront.BackgroundColor3 = Color3.fromRGB(240, 142, 214)
+            cpfront.BackgroundColor3 = library.libColor
             cpfront.BorderColor3     = Color3.fromRGB(0, 0, 0)
             cpfront.Size             = UDim2.new(1, 0, 1, 0)
 

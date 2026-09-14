@@ -224,7 +224,7 @@ function library:addTab(name)
         title.ZIndex                 = 2
         title.Font                   = Enum.Font.Code
         title.Text                   = groupname or ""
-        title.TextColor3             = Color3.fromRGB(255, 255, 255)
+        text.TextColor3              = Color3.fromRGB(155, 155, 155)
         title.TextSize               = 13
         title.TextStrokeTransparency = 0
         title.TextXAlignment         = Enum.TextXAlignment.Left
@@ -327,7 +327,7 @@ function library:addTab(name)
                 library.flags[args.flag] = state
                 mid.BorderColor3         = Color3.fromRGB(30, 30, 30)
                 front.BackgroundColor3   = state and library.libColor or Color3.fromRGB(15, 15, 15)
-                text.TextColor3          = state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 244)
+                text.TextColor3          = state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 144)
                 if args.callback then args.callback(state) end
             end)
             button.MouseEnter:Connect(function() mid.BorderColor3 = library.libColor end)

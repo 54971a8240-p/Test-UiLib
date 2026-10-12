@@ -1,4 +1,3 @@
--- v1.0
 local TweenService     = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
@@ -25,7 +24,7 @@ function ParryUI.new()
     Win.Parent = gui
     Instance.new("UICorner", Win).CornerRadius = UDim.new(0, 10)
 
-    -- Shadow inside Win so it moves with it
+    -- Shadow inside Win so it follows when dragged
     local ShadowHolder = Instance.new("Frame")
     ShadowHolder.Size = UDim2.new(1, 60, 1, 60)
     ShadowHolder.Position = UDim2.new(0, -30, 0, -30)
@@ -44,7 +43,7 @@ function ParryUI.new()
     Shadow.ZIndex = 0
     Shadow.Parent = ShadowHolder
 
-    -- Accent line
+    -- Accent
     local Accent = Instance.new("Frame")
     Accent.Size = UDim2.new(1, 0, 0, 2)
     Accent.BackgroundColor3 = Color3.fromRGB(100, 80, 220)
@@ -104,7 +103,7 @@ function ParryUI.new()
     Div.BorderSizePixel = 0
     Div.Parent = Win
 
-    -- Helpers
+    -- ── helpers ───────────────────────────
     local function sectionLabel(text, y)
         local l = Instance.new("TextLabel")
         l.Size = UDim2.new(1, -28, 0, 14)
@@ -116,14 +115,16 @@ function ParryUI.new()
         l.TextColor3 = Color3.fromRGB(65, 60, 95)
         l.TextXAlignment = Enum.TextXAlignment.Left
         l.Parent = Win
-        return l
     end
 
+    -- Row: label on left, right side free for controls
+    -- NOTE: ClipsDescendants is FALSE so pill/keybind dont get cut
     local function makeRow(y, labelText)
         local f = Instance.new("Frame")
         f.Size = UDim2.new(1, -28, 0, 36)
         f.Position = UDim2.new(0, 14, 0, y)
         f.BackgroundTransparency = 1
+        f.ClipsDescendants = false
         f.Parent = Win
 
         local l = Instance.new("TextLabel")
@@ -138,7 +139,7 @@ function ParryUI.new()
         return f
     end
 
-    -- Toggle Pill
+    -- ── toggle pill ───────────────────────
     local function makePill(parent)
         local pill = Instance.new("TextButton")
         pill.Size = UDim2.new(0, 44, 0, 24)
@@ -147,6 +148,7 @@ function ParryUI.new()
         pill.BorderSizePixel = 0
         pill.Text = ""
         pill.AutoButtonColor = false
+        pill.ZIndex = 3
         pill.Parent = parent
         Instance.new("UICorner", pill).CornerRadius = UDim.new(1, 0)
 
@@ -155,6 +157,7 @@ function ParryUI.new()
         knob.Position = UDim2.new(0, 3, 0.5, -9)
         knob.BackgroundColor3 = Color3.fromRGB(100, 95, 140)
         knob.BorderSizePixel = 0
+        knob.ZIndex = 4
         knob.Parent = pill
         Instance.new("UICorner", knob).CornerRadius = UDim.new(1, 0)
 
@@ -165,8 +168,10 @@ function ParryUI.new()
             local kp = s and UDim2.new(1,-21,0.5,-9) or UDim2.new(0,3,0.5,-9)
             local pc = s and Color3.fromRGB(100,80,220) or Color3.fromRGB(32,30,46)
             local kc = s and Color3.fromRGB(230,225,255) or Color3.fromRGB(100,95,140)
-            TweenService:Create(knob, TweenInfo.new(0.18,Enum.EasingStyle.Quad), {Position=kp, BackgroundColor3=kc}):Play()
-            TweenService:Create(pill, TweenInfo.new(0.18,Enum.EasingStyle.Quad), {BackgroundColor3=pc}):Play()
+            TweenService:Create(knob, TweenInfo.new(0.18,Enum.EasingStyle.Quad),
+                {Position=kp, BackgroundColor3=kc}):Play()
+            TweenService:Create(pill, TweenInfo.new(0.18,Enum.EasingStyle.Quad),
+                {BackgroundColor3=pc}):Play()
         end
 
         pill.MouseButton1Click:Connect(function()
@@ -177,7 +182,8 @@ function ParryUI.new()
         return setState, function() return state end
     end
 
-    -- Keybind tag with right-click mini hud
+    -- ── keybind tag ───────────────────────
+    -- Left click = rebind, Right click = hold/toggle picker
     local function makeKeybind(parent, defaultKey)
         local tag = Instance.new("TextButton")
         tag.Size = UDim2.new(0, 52, 0, 26)
@@ -189,6 +195,7 @@ function ParryUI.new()
         tag.Font = Enum.Font.GothamBold
         tag.TextColor3 = Color3.fromRGB(150, 140, 190)
         tag.AutoButtonColor = false
+        tag.ZIndex = 3
         tag.Parent = parent
         Instance.new("UICorner", tag).CornerRadius = UDim.new(0, 6)
 
@@ -197,25 +204,24 @@ function ParryUI.new()
         stroke.Thickness = 1
         stroke.Parent = tag
 
-        -- Mini hud for hold/toggle
+        -- Mini hud parented to Win so it isn't clipped by row
         local miniHud = Instance.new("Frame")
         miniHud.Size = UDim2.new(0, 110, 0, 62)
-        miniHud.Position = UDim2.new(0, -29, 0, 30)
         miniHud.BackgroundColor3 = Color3.fromRGB(18, 16, 28)
         miniHud.BorderSizePixel = 0
         miniHud.Visible = false
         miniHud.ZIndex = 20
-        miniHud.Parent = tag
+        miniHud.Parent = Win  -- parented to Win, not tag
         Instance.new("UICorner", miniHud).CornerRadius = UDim.new(0, 7)
         local ms = Instance.new("UIStroke")
         ms.Color = Color3.fromRGB(50, 45, 75)
         ms.Thickness = 1
         ms.Parent = miniHud
 
-        local function miniOpt(text, y)
+        local function miniOpt(text, yp)
             local b = Instance.new("TextButton")
             b.Size = UDim2.new(1, -12, 0, 26)
-            b.Position = UDim2.new(0, 6, 0, y)
+            b.Position = UDim2.new(0, 6, 0, yp)
             b.BackgroundTransparency = 1
             b.Text = text
             b.TextSize = 12
@@ -231,7 +237,7 @@ function ParryUI.new()
         local toggleBtn = miniOpt("  Toggle", 32)
         local spamMode  = "hold"
 
-        local function setMode(mode)
+        local function setSpamMode(mode)
             spamMode = mode
             holdBtn.TextColor3   = mode=="hold"   and Color3.fromRGB(160,130,255) or Color3.fromRGB(165,160,200)
             toggleBtn.TextColor3 = mode=="toggle" and Color3.fromRGB(160,130,255) or Color3.fromRGB(165,160,200)
@@ -239,19 +245,32 @@ function ParryUI.new()
             if self.onSpamModeChanged then self.onSpamModeChanged(mode) end
         end
 
-        holdBtn.MouseButton1Click:Connect(function()   setMode("hold")   end)
-        toggleBtn.MouseButton1Click:Connect(function() setMode("toggle") end)
+        holdBtn.MouseButton1Click:Connect(function()   setSpamMode("hold")   end)
+        toggleBtn.MouseButton1Click:Connect(function() setSpamMode("toggle") end)
+
+        -- Position mini hud relative to Win when shown
         tag.MouseButton2Click:Connect(function()
-            miniHud.Visible = not miniHud.Visible
+            if miniHud.Visible then
+                miniHud.Visible = false
+                return
+            end
+            -- Get tag absolute position relative to Win
+            local tagPos = tag.AbsolutePosition - Win.AbsolutePosition
+            miniHud.Position = UDim2.new(0, tagPos.X - 29, 0, tagPos.Y + 30)
+            miniHud.Visible = true
         end)
 
-        -- Close mini hud on click anywhere else
+        -- Close on click elsewhere — use UserInputService, NOT gui
         UserInputService.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                miniHud.Visible = false
+                -- small delay so the right-click handler fires first
+                task.delay(0.05, function()
+                    miniHud.Visible = false
+                end)
             end
         end)
 
+        -- Rebind on left click
         local listening = false
         local currentKey = defaultKey
 
@@ -259,7 +278,8 @@ function ParryUI.new()
             listening = true
             tag.Text = "..."
             tag.TextColor3 = Color3.fromRGB(160, 130, 255)
-            TweenService:Create(stroke, TweenInfo.new(0.15), {Color=Color3.fromRGB(120,90,220)}):Play()
+            TweenService:Create(stroke, TweenInfo.new(0.15),
+                {Color=Color3.fromRGB(120,90,220)}):Play()
         end)
 
         UserInputService.InputBegan:Connect(function(input, gp)
@@ -268,7 +288,8 @@ function ParryUI.new()
             currentKey = input.KeyCode
             tag.Text = input.KeyCode.Name
             tag.TextColor3 = Color3.fromRGB(150, 140, 190)
-            TweenService:Create(stroke, TweenInfo.new(0.15), {Color=Color3.fromRGB(45,42,65)}):Play()
+            TweenService:Create(stroke, TweenInfo.new(0.15),
+                {Color=Color3.fromRGB(45,42,65)}):Play()
             listening = false
             if self.onKeybindChanged then self.onKeybindChanged(currentKey) end
         end)
@@ -277,7 +298,7 @@ function ParryUI.new()
                function() return spamMode  end
     end
 
-    -- Dropdown
+    -- ── dropdown ──────────────────────────
     local function makeDropdown(y, options, default)
         local selected = default or options[1]
         local open = false
@@ -293,6 +314,7 @@ function ParryUI.new()
         btn.ZIndex = 5
         btn.Parent = Win
         Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 7)
+
         local stroke = Instance.new("UIStroke")
         stroke.Color = Color3.fromRGB(38, 35, 55)
         stroke.Thickness = 1
@@ -345,15 +367,20 @@ function ParryUI.new()
             ob.Text = opt
             ob.TextSize = 12
             ob.Font = Enum.Font.Gotham
-            ob.TextColor3 = opt==selected and Color3.fromRGB(160,130,255) or Color3.fromRGB(155,150,190)
+            ob.TextColor3 = opt==selected
+                and Color3.fromRGB(160,130,255)
+                or  Color3.fromRGB(155,150,190)
             ob.ZIndex = 11
             ob.Parent = list
             optBtns[i] = ob
+
             ob.MouseButton1Click:Connect(function()
                 selected = opt
                 lbl.Text = opt
-                for j,b in ipairs(optBtns) do
-                    b.TextColor3 = j==i and Color3.fromRGB(160,130,255) or Color3.fromRGB(155,150,190)
+                for j, b in ipairs(optBtns) do
+                    b.TextColor3 = j==i
+                        and Color3.fromRGB(160,130,255)
+                        or  Color3.fromRGB(155,150,190)
                 end
                 open = false
                 list.Visible = false
@@ -365,11 +392,12 @@ function ParryUI.new()
         btn.MouseButton1Click:Connect(function()
             open = not open
             list.Visible = open
-            TweenService:Create(arrow, TweenInfo.new(0.15), {Rotation = open and 270 or 90}):Play()
+            TweenService:Create(arrow, TweenInfo.new(0.15),
+                {Rotation = open and 270 or 90}):Play()
         end)
     end
 
-    -- Status bar
+    -- ── status bar ────────────────────────
     local statusBar = Instance.new("Frame")
     statusBar.Size = UDim2.new(1, 0, 0, 30)
     statusBar.Position = UDim2.new(0, 0, 1, -30)
@@ -396,7 +424,7 @@ function ParryUI.new()
     statusLbl.TextXAlignment = Enum.TextXAlignment.Left
     statusLbl.Parent = statusBar
 
-    -- Assemble rows
+    -- ── assemble ──────────────────────────
     sectionLabel("PARRY", 62)
     local row1 = makeRow(78, "Auto Parry")
     local getKey, getSpamMode = makeKeybind(row1, Enum.KeyCode.L)
@@ -405,7 +433,7 @@ function ParryUI.new()
     sectionLabel("METHOD", 124)
     makeDropdown(140, {"Remote", "Keypress"}, "Remote")
 
-    -- Public API
+    -- ── public API ────────────────────────
     function self.setStatus(text, col)
         statusLbl.Text = text
         local c = col or Color3.fromRGB(80,75,115)

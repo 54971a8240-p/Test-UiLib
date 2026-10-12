@@ -1,5 +1,4 @@
--- ParryUI.lua
-local TweenService    = game:GetService("TweenService")
+local TweenService     = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
 local ParryUI = {}
@@ -14,7 +13,6 @@ function ParryUI.new()
     gui.IgnoreGuiInset = true
     gui.Parent = game:GetService("CoreGui")
 
-    -- Shadow (parented to Win so it follows)
     local Win = Instance.new("Frame")
     Win.Name = "Window"
     Win.Size = UDim2.new(0, 290, 0, 255)
@@ -26,10 +24,10 @@ function ParryUI.new()
     Win.Parent = gui
     Instance.new("UICorner", Win).CornerRadius = UDim.new(0, 10)
 
-    -- Shadow inside same parent as Win so it moves with it
+    -- Shadow inside Win so it moves with it
     local ShadowHolder = Instance.new("Frame")
-    ShadowHolder.Size = UDim2.new(1, 40, 1, 40)
-    ShadowHolder.Position = UDim2.new(0, -20, 0, -20)
+    ShadowHolder.Size = UDim2.new(1, 60, 1, 60)
+    ShadowHolder.Position = UDim2.new(0, -30, 0, -30)
     ShadowHolder.BackgroundTransparency = 1
     ShadowHolder.ZIndex = 0
     ShadowHolder.Parent = Win
@@ -45,18 +43,20 @@ function ParryUI.new()
     Shadow.ZIndex = 0
     Shadow.Parent = ShadowHolder
 
-    -- Accent
+    -- Accent line
     local Accent = Instance.new("Frame")
     Accent.Size = UDim2.new(1, 0, 0, 2)
     Accent.BackgroundColor3 = Color3.fromRGB(100, 80, 220)
     Accent.BorderSizePixel = 0
     Accent.ZIndex = 2
     Accent.Parent = Win
-    Instance.new("UIGradient", Accent).Color = ColorSequence.new({
+    local ag = Instance.new("UIGradient")
+    ag.Color = ColorSequence.new({
         ColorSequenceKeypoint.new(0,   Color3.fromRGB(100, 80,  220)),
         ColorSequenceKeypoint.new(0.5, Color3.fromRGB(160, 100, 255)),
         ColorSequenceKeypoint.new(1,   Color3.fromRGB(80,  160, 255)),
     })
+    ag.Parent = Accent
 
     -- Title
     local TitleBar = Instance.new("Frame")
@@ -103,7 +103,7 @@ function ParryUI.new()
     Div.BorderSizePixel = 0
     Div.Parent = Win
 
-    -- ── Helpers ───────────────────────────
+    -- Helpers
     local function sectionLabel(text, y)
         local l = Instance.new("TextLabel")
         l.Size = UDim2.new(1, -28, 0, 14)
@@ -134,11 +134,10 @@ function ParryUI.new()
         l.TextColor3 = Color3.fromRGB(185, 180, 210)
         l.TextXAlignment = Enum.TextXAlignment.Left
         l.Parent = f
-
         return f
     end
 
-    -- ── Toggle Pill ───────────────────────
+    -- Toggle Pill
     local function makePill(parent)
         local pill = Instance.new("TextButton")
         pill.Size = UDim2.new(0, 44, 0, 24)
@@ -165,7 +164,7 @@ function ParryUI.new()
             local kp = s and UDim2.new(1,-21,0.5,-9) or UDim2.new(0,3,0.5,-9)
             local pc = s and Color3.fromRGB(100,80,220) or Color3.fromRGB(32,30,46)
             local kc = s and Color3.fromRGB(230,225,255) or Color3.fromRGB(100,95,140)
-            TweenService:Create(knob, TweenInfo.new(0.18,Enum.EasingStyle.Quad), {Position=kp,BackgroundColor3=kc}):Play()
+            TweenService:Create(knob, TweenInfo.new(0.18,Enum.EasingStyle.Quad), {Position=kp, BackgroundColor3=kc}):Play()
             TweenService:Create(pill, TweenInfo.new(0.18,Enum.EasingStyle.Quad), {BackgroundColor3=pc}):Play()
         end
 
@@ -177,8 +176,7 @@ function ParryUI.new()
         return setState, function() return state end
     end
 
-    -- ── Keybind ───────────────────────────
-    -- Right-click pops a small mode selector: Hold vs Toggle
+    -- Keybind tag with right-click mini hud
     local function makeKeybind(parent, defaultKey)
         local tag = Instance.new("TextButton")
         tag.Size = UDim2.new(0, 52, 0, 26)
@@ -198,21 +196,20 @@ function ParryUI.new()
         stroke.Thickness = 1
         stroke.Parent = tag
 
-        -- Right-click mini hud
+        -- Mini hud for hold/toggle
         local miniHud = Instance.new("Frame")
         miniHud.Size = UDim2.new(0, 110, 0, 62)
-        miniHud.Position = UDim2.new(0, -25, 0, 30)
+        miniHud.Position = UDim2.new(0, -29, 0, 30)
         miniHud.BackgroundColor3 = Color3.fromRGB(18, 16, 28)
         miniHud.BorderSizePixel = 0
         miniHud.Visible = false
         miniHud.ZIndex = 20
         miniHud.Parent = tag
         Instance.new("UICorner", miniHud).CornerRadius = UDim.new(0, 7)
-
-        local miniStroke = Instance.new("UIStroke")
-        miniStroke.Color = Color3.fromRGB(50, 45, 75)
-        miniStroke.Thickness = 1
-        miniStroke.Parent = miniHud
+        local ms = Instance.new("UIStroke")
+        ms.Color = Color3.fromRGB(50, 45, 75)
+        ms.Thickness = 1
+        ms.Parent = miniHud
 
         local function miniOpt(text, y)
             local b = Instance.new("TextButton")
@@ -231,26 +228,24 @@ function ParryUI.new()
 
         local holdBtn   = miniOpt("  Hold",   4)
         local toggleBtn = miniOpt("  Toggle", 32)
+        local spamMode  = "hold"
 
-        local spamMode = "hold"  -- "hold" | "toggle"
-
-        local function setActive(mode)
+        local function setMode(mode)
             spamMode = mode
-            holdBtn.TextColor3   = mode == "hold"   and Color3.fromRGB(160,130,255) or Color3.fromRGB(165,160,200)
-            toggleBtn.TextColor3 = mode == "toggle" and Color3.fromRGB(160,130,255) or Color3.fromRGB(165,160,200)
+            holdBtn.TextColor3   = mode=="hold"   and Color3.fromRGB(160,130,255) or Color3.fromRGB(165,160,200)
+            toggleBtn.TextColor3 = mode=="toggle" and Color3.fromRGB(160,130,255) or Color3.fromRGB(165,160,200)
             miniHud.Visible = false
             if self.onSpamModeChanged then self.onSpamModeChanged(mode) end
         end
 
-        holdBtn.MouseButton1Click:Connect(function()   setActive("hold")   end)
-        toggleBtn.MouseButton1Click:Connect(function() setActive("toggle") end)
-
+        holdBtn.MouseButton1Click:Connect(function()   setMode("hold")   end)
+        toggleBtn.MouseButton1Click:Connect(function() setMode("toggle") end)
         tag.MouseButton2Click:Connect(function()
             miniHud.Visible = not miniHud.Visible
         end)
 
-        -- Close mini hud if clicking elsewhere
-        gui.InputBegan:Connect(function(input)
+        -- Close mini hud on click anywhere else
+        UserInputService.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 then
                 miniHud.Visible = false
             end
@@ -263,25 +258,25 @@ function ParryUI.new()
             listening = true
             tag.Text = "..."
             tag.TextColor3 = Color3.fromRGB(160, 130, 255)
-            TweenService:Create(stroke, TweenInfo.new(0.15), {Color = Color3.fromRGB(120,90,220)}):Play()
+            TweenService:Create(stroke, TweenInfo.new(0.15), {Color=Color3.fromRGB(120,90,220)}):Play()
         end)
 
         UserInputService.InputBegan:Connect(function(input, gp)
-            if listening and input.UserInputType == Enum.UserInputType.Keyboard then
-                currentKey = input.KeyCode
-                tag.Text = input.KeyCode.Name
-                tag.TextColor3 = Color3.fromRGB(150, 140, 190)
-                TweenService:Create(stroke, TweenInfo.new(0.15), {Color = Color3.fromRGB(45,42,65)}):Play()
-                listening = false
-                if self.onKeybindChanged then self.onKeybindChanged(currentKey) end
-            end
+            if not listening then return end
+            if input.UserInputType ~= Enum.UserInputType.Keyboard then return end
+            currentKey = input.KeyCode
+            tag.Text = input.KeyCode.Name
+            tag.TextColor3 = Color3.fromRGB(150, 140, 190)
+            TweenService:Create(stroke, TweenInfo.new(0.15), {Color=Color3.fromRGB(45,42,65)}):Play()
+            listening = false
+            if self.onKeybindChanged then self.onKeybindChanged(currentKey) end
         end)
 
         return function() return currentKey end,
                function() return spamMode  end
     end
 
-    -- ── Dropdown ──────────────────────────
+    -- Dropdown
     local function makeDropdown(y, options, default)
         local selected = default or options[1]
         local open = false
@@ -297,7 +292,6 @@ function ParryUI.new()
         btn.ZIndex = 5
         btn.Parent = Win
         Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 7)
-
         local stroke = Instance.new("UIStroke")
         stroke.Color = Color3.fromRGB(38, 35, 55)
         stroke.Thickness = 1
@@ -337,7 +331,9 @@ function ParryUI.new()
         list.Visible = false
         list.Parent = Win
         Instance.new("UICorner", list).CornerRadius = UDim.new(0, 7)
-        Instance.new("UIStroke", list).Color = Color3.fromRGB(38,35,55)
+        local ls = Instance.new("UIStroke")
+        ls.Color = Color3.fromRGB(38, 35, 55)
+        ls.Parent = list
 
         local optBtns = {}
         for i, opt in ipairs(options) do
@@ -352,7 +348,6 @@ function ParryUI.new()
             ob.ZIndex = 11
             ob.Parent = list
             optBtns[i] = ob
-
             ob.MouseButton1Click:Connect(function()
                 selected = opt
                 lbl.Text = opt
@@ -373,7 +368,7 @@ function ParryUI.new()
         end)
     end
 
-    -- ── Status bar ────────────────────────
+    -- Status bar
     local statusBar = Instance.new("Frame")
     statusBar.Size = UDim2.new(1, 0, 0, 30)
     statusBar.Position = UDim2.new(0, 0, 1, -30)
@@ -400,7 +395,7 @@ function ParryUI.new()
     statusLbl.TextXAlignment = Enum.TextXAlignment.Left
     statusLbl.Parent = statusBar
 
-    -- ── Assemble ──────────────────────────
+    -- Assemble rows
     sectionLabel("PARRY", 62)
     local row1 = makeRow(78, "Auto Parry")
     local getKey, getSpamMode = makeKeybind(row1, Enum.KeyCode.L)
@@ -409,7 +404,7 @@ function ParryUI.new()
     sectionLabel("METHOD", 124)
     makeDropdown(140, {"Remote", "Keypress"}, "Remote")
 
-    -- ── Public API ────────────────────────
+    -- Public API
     function self.setStatus(text, col)
         statusLbl.Text = text
         local c = col or Color3.fromRGB(80,75,115)
@@ -417,14 +412,14 @@ function ParryUI.new()
         TweenService:Create(dot, TweenInfo.new(0.2), {BackgroundColor3=c}):Play()
     end
 
-    function self.getKey()      return getKey()      end
-    function self.getToggle()   return getPill()     end
-    function self.setToggle(s)  setPill(s)           end
-    function self.getSpamMode() return getSpamMode() end
+    function self.getKey()       return getKey()      end
+    function self.getToggle()    return getPill()     end
+    function self.setToggle(s)   setPill(s)           end
+    function self.getSpamMode()  return getSpamMode() end
 
-    self.onToggle         = nil
-    self.onKeybindChanged = nil
-    self.onModeChanged    = nil
+    self.onToggle          = nil
+    self.onKeybindChanged  = nil
+    self.onModeChanged     = nil
     self.onSpamModeChanged = nil
 
     return self

@@ -1,7 +1,5 @@
 -- ParryUI.lua
--- Usage: local ParryUI = loadstring(game:HttpGet('RAW_LINK'))()
-
-local TweenService = game:GetService("TweenService")
+local TweenService    = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
 local ParryUI = {}
@@ -9,9 +7,6 @@ local ParryUI = {}
 function ParryUI.new()
     local self = {}
 
-    -- ══════════════════════════════════════
-    --  SCREEN GUI
-    -- ══════════════════════════════════════
     local gui = Instance.new("ScreenGui")
     gui.Name = "ParryBot"
     gui.ResetOnSpawn = false
@@ -19,49 +14,51 @@ function ParryUI.new()
     gui.IgnoreGuiInset = true
     gui.Parent = game:GetService("CoreGui")
 
-    -- Drop shadow
-    local Shadow = Instance.new("ImageLabel")
-    Shadow.Size = UDim2.new(0, 330, 0, 330)
-    Shadow.Position = UDim2.new(0.5, -173, 0.5, -155)
-    Shadow.BackgroundTransparency = 1
-    Shadow.Image = "rbxassetid://6014261993"
-    Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-    Shadow.ImageTransparency = 0.55
-    Shadow.ScaleType = Enum.ScaleType.Slice
-    Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
-    Shadow.Parent = gui
-
-    -- Main window
+    -- Shadow (parented to Win so it follows)
     local Win = Instance.new("Frame")
     Win.Name = "Window"
-    Win.Size = UDim2.new(0, 290, 0, 250)
-    Win.Position = UDim2.new(0.5, -145, 0.5, -125)
+    Win.Size = UDim2.new(0, 290, 0, 255)
+    Win.Position = UDim2.new(0.5, -145, 0.5, -127)
     Win.BackgroundColor3 = Color3.fromRGB(14, 14, 18)
     Win.BorderSizePixel = 0
-    Win.ClipsDescendants = true
     Win.Active = true
     Win.Draggable = true
     Win.Parent = gui
     Instance.new("UICorner", Win).CornerRadius = UDim.new(0, 10)
 
-    -- Accent line
+    -- Shadow inside same parent as Win so it moves with it
+    local ShadowHolder = Instance.new("Frame")
+    ShadowHolder.Size = UDim2.new(1, 40, 1, 40)
+    ShadowHolder.Position = UDim2.new(0, -20, 0, -20)
+    ShadowHolder.BackgroundTransparency = 1
+    ShadowHolder.ZIndex = 0
+    ShadowHolder.Parent = Win
+
+    local Shadow = Instance.new("ImageLabel")
+    Shadow.Size = UDim2.new(1, 0, 1, 0)
+    Shadow.BackgroundTransparency = 1
+    Shadow.Image = "rbxassetid://6014261993"
+    Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+    Shadow.ImageTransparency = 0.5
+    Shadow.ScaleType = Enum.ScaleType.Slice
+    Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
+    Shadow.ZIndex = 0
+    Shadow.Parent = ShadowHolder
+
+    -- Accent
     local Accent = Instance.new("Frame")
     Accent.Size = UDim2.new(1, 0, 0, 2)
-    Accent.Position = UDim2.new(0, 0, 0, 0)
     Accent.BackgroundColor3 = Color3.fromRGB(100, 80, 220)
     Accent.BorderSizePixel = 0
     Accent.ZIndex = 2
     Accent.Parent = Win
-
-    local AccentGrad = Instance.new("UIGradient")
-    AccentGrad.Color = ColorSequence.new({
+    Instance.new("UIGradient", Accent).Color = ColorSequence.new({
         ColorSequenceKeypoint.new(0,   Color3.fromRGB(100, 80,  220)),
         ColorSequenceKeypoint.new(0.5, Color3.fromRGB(160, 100, 255)),
         ColorSequenceKeypoint.new(1,   Color3.fromRGB(80,  160, 255)),
     })
-    AccentGrad.Parent = Accent
 
-    -- Title bar
+    -- Title
     local TitleBar = Instance.new("Frame")
     TitleBar.Size = UDim2.new(1, 0, 0, 50)
     TitleBar.BackgroundTransparency = 1
@@ -99,7 +96,6 @@ function ParryUI.new()
     Sub.TextXAlignment = Enum.TextXAlignment.Left
     Sub.Parent = TitleBar
 
-    -- Divider
     local Div = Instance.new("Frame")
     Div.Size = UDim2.new(1, -28, 0, 1)
     Div.Position = UDim2.new(0, 14, 0, 52)
@@ -107,9 +103,7 @@ function ParryUI.new()
     Div.BorderSizePixel = 0
     Div.Parent = Win
 
-    -- ══════════════════════════════════════
-    --  SECTION LABEL helper
-    -- ══════════════════════════════════════
+    -- ── Helpers ───────────────────────────
     local function sectionLabel(text, y)
         local l = Instance.new("TextLabel")
         l.Size = UDim2.new(1, -28, 0, 14)
@@ -124,9 +118,6 @@ function ParryUI.new()
         return l
     end
 
-    -- ══════════════════════════════════════
-    --  ROW helper
-    -- ══════════════════════════════════════
     local function makeRow(y, labelText)
         local f = Instance.new("Frame")
         f.Size = UDim2.new(1, -28, 0, 36)
@@ -147,9 +138,7 @@ function ParryUI.new()
         return f
     end
 
-    -- ══════════════════════════════════════
-    --  TOGGLE PILL
-    -- ══════════════════════════════════════
+    -- ── Toggle Pill ───────────────────────
     local function makePill(parent)
         local pill = Instance.new("TextButton")
         pill.Size = UDim2.new(0, 44, 0, 24)
@@ -173,10 +162,10 @@ function ParryUI.new()
 
         local function setState(s)
             state = s
-            local kp   = s and UDim2.new(1,-21,0.5,-9) or UDim2.new(0,3,0.5,-9)
-            local pc   = s and Color3.fromRGB(100,80,220) or Color3.fromRGB(32,30,46)
-            local kc   = s and Color3.fromRGB(230,225,255) or Color3.fromRGB(100,95,140)
-            TweenService:Create(knob, TweenInfo.new(0.18,Enum.EasingStyle.Quad), {Position=kp, BackgroundColor3=kc}):Play()
+            local kp = s and UDim2.new(1,-21,0.5,-9) or UDim2.new(0,3,0.5,-9)
+            local pc = s and Color3.fromRGB(100,80,220) or Color3.fromRGB(32,30,46)
+            local kc = s and Color3.fromRGB(230,225,255) or Color3.fromRGB(100,95,140)
+            TweenService:Create(knob, TweenInfo.new(0.18,Enum.EasingStyle.Quad), {Position=kp,BackgroundColor3=kc}):Play()
             TweenService:Create(pill, TweenInfo.new(0.18,Enum.EasingStyle.Quad), {BackgroundColor3=pc}):Play()
         end
 
@@ -188,9 +177,8 @@ function ParryUI.new()
         return setState, function() return state end
     end
 
-    -- ══════════════════════════════════════
-    --  KEYBIND TAG
-    -- ══════════════════════════════════════
+    -- ── Keybind ───────────────────────────
+    -- Right-click pops a small mode selector: Hold vs Toggle
     local function makeKeybind(parent, defaultKey)
         local tag = Instance.new("TextButton")
         tag.Size = UDim2.new(0, 52, 0, 26)
@@ -210,6 +198,64 @@ function ParryUI.new()
         stroke.Thickness = 1
         stroke.Parent = tag
 
+        -- Right-click mini hud
+        local miniHud = Instance.new("Frame")
+        miniHud.Size = UDim2.new(0, 110, 0, 62)
+        miniHud.Position = UDim2.new(0, -25, 0, 30)
+        miniHud.BackgroundColor3 = Color3.fromRGB(18, 16, 28)
+        miniHud.BorderSizePixel = 0
+        miniHud.Visible = false
+        miniHud.ZIndex = 20
+        miniHud.Parent = tag
+        Instance.new("UICorner", miniHud).CornerRadius = UDim.new(0, 7)
+
+        local miniStroke = Instance.new("UIStroke")
+        miniStroke.Color = Color3.fromRGB(50, 45, 75)
+        miniStroke.Thickness = 1
+        miniStroke.Parent = miniHud
+
+        local function miniOpt(text, y)
+            local b = Instance.new("TextButton")
+            b.Size = UDim2.new(1, -12, 0, 26)
+            b.Position = UDim2.new(0, 6, 0, y)
+            b.BackgroundTransparency = 1
+            b.Text = text
+            b.TextSize = 12
+            b.Font = Enum.Font.Gotham
+            b.TextColor3 = Color3.fromRGB(165, 160, 200)
+            b.TextXAlignment = Enum.TextXAlignment.Left
+            b.ZIndex = 21
+            b.Parent = miniHud
+            return b
+        end
+
+        local holdBtn   = miniOpt("  Hold",   4)
+        local toggleBtn = miniOpt("  Toggle", 32)
+
+        local spamMode = "hold"  -- "hold" | "toggle"
+
+        local function setActive(mode)
+            spamMode = mode
+            holdBtn.TextColor3   = mode == "hold"   and Color3.fromRGB(160,130,255) or Color3.fromRGB(165,160,200)
+            toggleBtn.TextColor3 = mode == "toggle" and Color3.fromRGB(160,130,255) or Color3.fromRGB(165,160,200)
+            miniHud.Visible = false
+            if self.onSpamModeChanged then self.onSpamModeChanged(mode) end
+        end
+
+        holdBtn.MouseButton1Click:Connect(function()   setActive("hold")   end)
+        toggleBtn.MouseButton1Click:Connect(function() setActive("toggle") end)
+
+        tag.MouseButton2Click:Connect(function()
+            miniHud.Visible = not miniHud.Visible
+        end)
+
+        -- Close mini hud if clicking elsewhere
+        gui.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                miniHud.Visible = false
+            end
+        end)
+
         local listening = false
         local currentKey = defaultKey
 
@@ -217,7 +263,7 @@ function ParryUI.new()
             listening = true
             tag.Text = "..."
             tag.TextColor3 = Color3.fromRGB(160, 130, 255)
-            TweenService:Create(stroke, TweenInfo.new(0.15), {Color = Color3.fromRGB(120, 90, 220)}):Play()
+            TweenService:Create(stroke, TweenInfo.new(0.15), {Color = Color3.fromRGB(120,90,220)}):Play()
         end)
 
         UserInputService.InputBegan:Connect(function(input, gp)
@@ -231,12 +277,11 @@ function ParryUI.new()
             end
         end)
 
-        return function() return currentKey end
+        return function() return currentKey end,
+               function() return spamMode  end
     end
 
-    -- ══════════════════════════════════════
-    --  DROPDOWN
-    -- ══════════════════════════════════════
+    -- ── Dropdown ──────────────────────────
     local function makeDropdown(y, options, default)
         local selected = default or options[1]
         local open = false
@@ -292,15 +337,9 @@ function ParryUI.new()
         list.Visible = false
         list.Parent = Win
         Instance.new("UICorner", list).CornerRadius = UDim.new(0, 7)
+        Instance.new("UIStroke", list).Color = Color3.fromRGB(38,35,55)
 
-        local listStroke = Instance.new("UIStroke")
-        listStroke.Color = Color3.fromRGB(38, 35, 55)
-        listStroke.Thickness = 1
-        listStroke.Parent = list
-
-        local changed = Instance.new("BindableEvent")
         local optBtns = {}
-
         for i, opt in ipairs(options) do
             local ob = Instance.new("TextButton")
             ob.Size = UDim2.new(1, 0, 0, itemH)
@@ -309,9 +348,7 @@ function ParryUI.new()
             ob.Text = opt
             ob.TextSize = 12
             ob.Font = Enum.Font.Gotham
-            ob.TextColor3 = opt == selected
-                and Color3.fromRGB(160,130,255)
-                or  Color3.fromRGB(155,150,190)
+            ob.TextColor3 = opt==selected and Color3.fromRGB(160,130,255) or Color3.fromRGB(155,150,190)
             ob.ZIndex = 11
             ob.Parent = list
             optBtns[i] = ob
@@ -319,15 +356,12 @@ function ParryUI.new()
             ob.MouseButton1Click:Connect(function()
                 selected = opt
                 lbl.Text = opt
-                for j, b in ipairs(optBtns) do
-                    b.TextColor3 = j==i
-                        and Color3.fromRGB(160,130,255)
-                        or  Color3.fromRGB(155,150,190)
+                for j,b in ipairs(optBtns) do
+                    b.TextColor3 = j==i and Color3.fromRGB(160,130,255) or Color3.fromRGB(155,150,190)
                 end
                 open = false
                 list.Visible = false
                 TweenService:Create(arrow, TweenInfo.new(0.15), {Rotation=90}):Play()
-                changed:Fire(opt)
                 if self.onModeChanged then self.onModeChanged(opt) end
             end)
         end
@@ -337,13 +371,9 @@ function ParryUI.new()
             list.Visible = open
             TweenService:Create(arrow, TweenInfo.new(0.15), {Rotation = open and 270 or 90}):Play()
         end)
-
-        return changed.Event, function() return selected end
     end
 
-    -- ══════════════════════════════════════
-    --  STATUS BAR
-    -- ══════════════════════════════════════
+    -- ── Status bar ────────────────────────
     local statusBar = Instance.new("Frame")
     statusBar.Size = UDim2.new(1, 0, 0, 30)
     statusBar.Position = UDim2.new(0, 0, 1, -30)
@@ -370,20 +400,16 @@ function ParryUI.new()
     statusLbl.TextXAlignment = Enum.TextXAlignment.Left
     statusLbl.Parent = statusBar
 
-    -- ══════════════════════════════════════
-    --  ASSEMBLE ROWS
-    -- ══════════════════════════════════════
+    -- ── Assemble ──────────────────────────
     sectionLabel("PARRY", 62)
     local row1 = makeRow(78, "Auto Parry")
-    local getKey = makeKeybind(row1, Enum.KeyCode.F)
+    local getKey, getSpamMode = makeKeybind(row1, Enum.KeyCode.L)
     local setPill, getPill = makePill(row1)
 
     sectionLabel("METHOD", 124)
     makeDropdown(140, {"Remote", "Keypress"}, "Remote")
 
-    -- ══════════════════════════════════════
-    --  PUBLIC API
-    -- ══════════════════════════════════════
+    -- ── Public API ────────────────────────
     function self.setStatus(text, col)
         statusLbl.Text = text
         local c = col or Color3.fromRGB(80,75,115)
@@ -391,14 +417,15 @@ function ParryUI.new()
         TweenService:Create(dot, TweenInfo.new(0.2), {BackgroundColor3=c}):Play()
     end
 
-    function self.getKey() return getKey() end
-    function self.getToggle() return getPill() end
-    function self.setToggle(s) setPill(s) end
+    function self.getKey()      return getKey()      end
+    function self.getToggle()   return getPill()     end
+    function self.setToggle(s)  setPill(s)           end
+    function self.getSpamMode() return getSpamMode() end
 
-    -- callbacks wired from main script
-    self.onToggle        = nil
+    self.onToggle         = nil
     self.onKeybindChanged = nil
-    self.onModeChanged   = nil
+    self.onModeChanged    = nil
+    self.onSpamModeChanged = nil
 
     return self
 end
